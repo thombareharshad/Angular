@@ -1,0 +1,47 @@
+<div class="top-menu">
+
+    <img class="logo"
+         src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
+
+</div>
+
+<!--
+Pipe Demo
+<div class="demo">
+     <div>Start Data: {{startDate | date: 'MMM-dd-yyyy'}}</div>
+    <div>{{price | currency: 'INR'}}</div>
+     <div>Percentage: {{rate | percent}}</div>
+</div>
+-->
+
+<div *ngFor="let pair of course | keyvalue">
+  {{pair.key + ': ' + pair.value}}
+</div>
+
+<div class="courses">
+  <course-card
+  *ngFor="let course of courses | slice:0:2; index as i; first as first; last as last; even as even; odd as odd"
+    [class.is-first] = "first"
+    [class.is-last] = "last"
+    [class.is-even] = "even"
+    [class.is-odd] = "odd"
+    (courseSelected)="onCourseSelected($event)"
+    [course]="course" [index] = "i+1"></course-card>
+
+  <!-- @for (course of courses; track course?.id; let index = $index; let count = $count;
+    let first = $first; let last = $last) {
+
+  <course-card
+    (courseSelected)="onCourseSelected($event)"
+    [course]="course"
+      [index]="index+1"/>
+
+  }
+  @empty {
+    <h1>No Courses Found!!!!</h1>
+  } -->
+
+
+</div>
+
+
