@@ -1,32 +1,30 @@
-import { Component, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, ViewChild, viewChild } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
+import { CourseCardComponent } from './course-card/course-card.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
   courses = [...COURSES];
 
-  startDate = new Date(2024, 11, 11);
+  @ViewChild('cardRef1', {read:ElementRef})
+  card1:ElementRef
 
-  title = COURSES[0].description;
+  @ViewChild('courseImage')
+  courseImage:ElementRef
 
-  price = 9.99001145;
-
-  rate = 0.67;
-
-  course = COURSES[0];
-
-  onCourseSelected(course:Course) {
-    console.log("App component - click event bubbled...", course);
+  constructor() {
+  }
+  ngAfterViewInit() {
+    console.log('courseImage ', this.courseImage);
   }
 
-  trackCourse(index:number, course:Course) {
-    return course.id;
+  onCourseSelected(course:Course) {
   }
 
 }
