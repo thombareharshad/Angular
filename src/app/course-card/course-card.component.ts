@@ -1,5 +1,5 @@
 import { Course } from './../model/course';
-import { Component, Input, EventEmitter, Output, ViewChild, OnInit, AfterViewInit, ContentChild, ElementRef } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild, OnInit, AfterViewInit, ContentChild, ElementRef, ContentChildren, AfterContentInit, QueryList } from '@angular/core';
 import { NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { CourseImageComponent } from '../course-image/course-image.component';
 
@@ -11,19 +11,23 @@ import { CourseImageComponent } from '../course-image/course-image.component';
   styleUrl: './course-card.component.css'
 })
 
-export class CourseCardComponent implements OnInit, AfterViewInit {
+export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentInit {
   
   @Input()
   course:Course;
 
-  @ContentChild(CourseImageComponent, {read: ElementRef})
-  image:ElementRef;
+  @ContentChildren(CourseImageComponent, {read:ElementRef})
+  images:QueryList<ElementRef>;
 
   @Output('courseSelected')
   courseEmitter = new EventEmitter<Course>();
 
   ngAfterViewInit(): void {
-    console.log(this.image);
+    
+  }
+
+  ngAfterContentInit(): void {
+    console.log(this.images);
   }
 
   ngOnInit(): void {
