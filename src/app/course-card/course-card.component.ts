@@ -1,12 +1,12 @@
 import { Course } from './../model/course';
-import { Component, Input, EventEmitter, Output, ViewChild, OnInit, AfterViewInit, ContentChild, ElementRef, ContentChildren, AfterContentInit, QueryList } from '@angular/core';
-import { NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { Component, Input, EventEmitter, Output, ViewChild, OnInit, AfterViewInit, ContentChild, ElementRef, ContentChildren, AfterContentInit, QueryList, TemplateRef } from '@angular/core';
+import { NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
 import { CourseImageComponent } from '../course-image/course-image.component';
 
 @Component({
   selector: 'course-card',
   standalone: true,
-  imports: [NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault],
+  imports: [NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault,NgTemplateOutlet],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })
@@ -15,6 +15,9 @@ export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentI
   
   @Input()
   course:Course;
+
+  @Input()
+  noImgTpl:TemplateRef<any>;
 
   @ContentChildren(CourseImageComponent, {read:ElementRef})
   images:QueryList<ElementRef>;
