@@ -1,32 +1,41 @@
-import { Component, EventEmitter } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {COURSES} from '../db-data';
-import { Course } from './model/course';
+import {Course} from './model/course';
+import {CourseCardComponent} from './course-card/course-card.component';
+import { HighlightedDirective } from './directives/highlighted.directive';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
-  courses = [...COURSES];
+    courses = COURSES;
 
-  startDate = new Date(2024, 11, 11);
 
-  title = COURSES[0].description;
+    @ViewChildren(CourseCardComponent, {read: ElementRef})
+    cards : QueryList<ElementRef>;
 
-  price = 9.99001145;
+    @ViewChild(CourseCardComponent, {read:HighlightedDirective})
+    highlighted:HighlightedDirective;
 
-  rate = 0.67;
 
-  course = COURSES[0];
+    constructor() {
 
-  onCourseSelected(course:Course) {
-    console.log("App component - click event bubbled...", course);
-  }
+    }
 
-  trackCourse(index:number, course:Course) {
-    return course.id;
-  }
+    onToggle(isHighlighted:boolean) {
+      console.log(isHighlighted);
+    }
+
+    ngAfterViewInit() {
+      console.log(this.highlighted);
+    }
+
+    onCourseSelected(course:Course) {
+
+    }
 
 }

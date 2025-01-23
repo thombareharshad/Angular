@@ -5,43 +5,31 @@
 
 </div>
 
-<!--
-Pipe Demo
-<div class="demo">
-     <div>Start Data: {{startDate | date: 'MMM-dd-yyyy'}}</div>
-    <div>{{price | currency: 'INR'}}</div>
-     <div>Percentage: {{rate | percent}}</div>
-</div>
--->
 
-<div *ngFor="let pair of course | keyvalue">
-  {{pair.key + ': ' + pair.value}}
-</div>
+<ng-template [ngIf]="courses[0]" let-course>
+  <div class="courses" >
 
-<div class="courses">
-  <course-card
-  *ngFor="let course of courses | slice:0:2; index as i; first as first; last as last; even as even; odd as odd"
-    [class.is-first] = "first"
-    [class.is-last] = "last"
-    [class.is-even] = "even"
-    [class.is-odd] = "odd"
-    (courseSelected)="onCourseSelected($event)"
-    [course]="course" [index] = "i+1"></course-card>
+    <course-card highlighted #highlighter="hl"
+            (toggleHighlight)="onToggle($event)"
+            (courseSelected)="onCourseSelected($event)"
+                 [course]="course">
+                 
+          <course-image [src]="course.iconUrl" *ngxUnless="course.iconUrl">
 
-  <!-- @for (course of courses; track course?.id; let index = $index; let count = $count;
-    let first = $first; let last = $last) {
+          </course-image>
+          
+        
 
-  <course-card
-    (courseSelected)="onCourseSelected($event)"
-    [course]="course"
-      [index]="index+1"/>
+        <div class="course-description"
+              (dblclick)="highlighter.toggle()">
+            {{ course.longDescription }}
+        </div>
 
-  }
-  @empty {
-    <h1>No Courses Found!!!!</h1>
-  } -->
+    </course-card>
 
 
 </div>
+</ng-template>
+
 
 
