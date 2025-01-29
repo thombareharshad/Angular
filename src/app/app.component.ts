@@ -1,32 +1,45 @@
-import { Component, EventEmitter } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {COURSES} from '../db-data';
-import { Course } from './model/course';
+import {Course} from './model/course';
+import {CourseCardComponent} from './course-card/course-card.component';
+import {HighlightedDirective} from './directives/highlighted.directive';
+import {Observable} from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { CoursesService } from './services/courses.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  courses = [...COURSES];
+  courses$ : Observable<Course[]>;
 
-  startDate = new Date(2024, 11, 11);
+  courses = COURSES;
 
-  title = COURSES[0].description;
+  constructor(private coursesService: CoursesService) {
 
-  price = 9.99001145;
-
-  rate = 0.67;
-
-  course = COURSES[0];
-
-  onCourseSelected(course:Course) {
-    console.log("App component - click event bubbled...", course);
   }
 
-  trackCourse(index:number, course:Course) {
-    return course.id;
+  ngOnInit() {
+    console.log(this.coursesService);
+
+  this.courses$ = this.coursesService.loadCourses();
+    // this.http.get('/api/courses', {params})
+    // .subscribe(
+    //   courses => this.courses = courses
+    // );
   }
+
+  save(course:Course) {
+    this.coursesService.saveCourse(course)
+      .subscribe(
+        () => console.log('Course Saved Successfully')
+      );
+  }
+
+
 
 }

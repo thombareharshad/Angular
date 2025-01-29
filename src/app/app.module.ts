@@ -1,21 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CourseCardComponent } from "./course-card/course-card.component";
+import { CourseCardComponent } from './course-card/course-card.component';
+import { CourseImageComponent } from './course-image/course-image.component';
+import { HighlightedDirective } from './directives/highlighted.directive';
+import { NgxUnlessDirective } from './directives/ngx-unless.directive';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CourseCardComponent
-],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        CourseCardComponent,
+        CourseImageComponent,
+        HighlightedDirective,
+        NgxUnlessDirective
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

@@ -1,44 +1,54 @@
-import { Course } from './../model/course';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import {
+    AfterContentInit,
+    AfterViewInit,
+    Component,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewEncapsulation
+} from '@angular/core';
+import {Course} from '../model/course';
+import {CourseImageComponent} from '../course-image/course-image.component';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
-  selector: 'course-card',
-  standalone: true,
-  imports: [NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault],
-  templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.css'
+    selector: 'course-card',
+    templateUrl: './course-card.component.html',
+    styleUrls: ['./course-card.component.css'],
+    standalone: false
 })
+export class CourseCardComponent implements OnInit {
 
-export class CourseCardComponent {
+    @Input()
+    course: Course;
 
-  @Input()
-  course:Course;
+    @Input()
+    cardIndex: number;
 
-  @Input({required: true})
-  index:Number
+    @Output('courseChanged')
+    courseEmitter = new EventEmitter<Course>();
 
-  @Output('courseSelected')
-  courseEmitter = new EventEmitter<Course>();
 
-  onCourseViewed() {
-    console.log("Card Component - button clicked ...");
+    constructor(private coursesService: CoursesService) {
 
-    this.courseEmitter.emit(this.course);
-  }
-
-  isImageVisible() {
-    return this.course && this.course.iconUrl;
-  }
-
-  cardClasses() {
-    if(this.course.category == 'BEGINNER') {
-      return ['beginner'];
     }
-  }
 
-  cardStyles() {
-    return {'background-image':'url('+this.course.iconUrl+')'};
-  }
+    ngOnInit() {
+        // console.log(this.coursesService);
+    }
+
+
+    onSaveClicked(description:string) {
+
+        this.courseEmitter.emit({...this.course, description});
+
+    }
+
+
+
 
 }
